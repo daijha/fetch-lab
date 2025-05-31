@@ -24,7 +24,7 @@ const API_KEY = "";
  */
 //https://api.thecatapi.com/v1/images/search?limit=10 another documentation link to try
 
-let breeds = []; // so i can access in both blocks 
+let breeds = []; // so i can access in both blocks
 async function initialLoad() {
   const headers = new Headers({
     "Content-Type": "application/json",
@@ -73,15 +73,20 @@ initialLoad();
  */
 
 breedSelect.addEventListener("change", () => {
+
   // need to access breedSelect.value. change is for when the value of a form element changes
-  console.log(breedSelect.value); // value returned after breed chosen.
-  let chosenId = breedSelect.value;// grabs the id from the block above 
+  // console.log(breedSelect.value); // value returned after breed chosen.
+  let chosenId = breedSelect.value; // grabs the id from the block above
+
   async function getImages() {
     let res = await fetch(
       "https://api.thecatapi.com/v1/images/search?limit=10"
     ); // from documentation on how to filter by breed.
     let images = await res.json(); // sometimes gets a undefined error...
-    
+
+    let carouselContainer = document.querySelector("#carouselExampleControls .carousel-inner");// reloads the images by clearing out inner html.
+  carouselContainer.innerHTML = ""; // This removes all previous images
+
     for (let image of images) {
       let imgDisplay = Carousel.createCarouselItem(
         image.url,
@@ -90,22 +95,24 @@ breedSelect.addEventListener("change", () => {
       );
       Carousel.appendCarousel(imgDisplay);
       //  console.log(image)
-      let  selectedBreed = Array.from(breedSelect.options).find(option => option.value === chosenId);// research this!! delete later 
-console.log(selectedBreed)
+      let selectedBreed = Array.from(breedSelect.options).find(
+        (option) => option.value === chosenId
+      ); // research this!! delete later
+      //console.log(selectedBreed)
     }
-   }
-getImages(); //  returns id of the selected breed. my mind is fuzzy :D
-//infoDump step for 2:
-let selectedBreed = breeds.find( breed => breed.id === chosenId);// WHY DOES THIS WORK!!!!! DELETE BEFORE SUBMITTING
-if (selectedBreed){
-let infoSection = document.getElementById("infoDump");
-infoSection.textContent = ""
-console.log(selectedBreed.description)
-infoSection.textContent = `Cat: ${selectedBreed.name}. ${selectedBreed.description} They are  ${selectedBreed.temperament}`
-} 
+  }
+  console.log("Fetching new images for:", chosenId);
+   getImages(); //  returns id of the selected breed. my mind is fuzzy :D
+  //infoDump step for 2:
+  let selectedBreed = breeds.find((breed) => breed.id === chosenId); // WHY DOES THIS WORK!!!!! DELETE BEFORE SUBMITTING
+  if (selectedBreed) {
+    let infoSection = document.getElementById("infoDump");
+    infoSection.textContent = "";
+    // console.log(selectedBreed.description)
+    infoSection.textContent = `Cat: ${selectedBreed.name}. ${selectedBreed.description} They are  ${selectedBreed.temperament}`;
+  }
+
 });
-
-
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
