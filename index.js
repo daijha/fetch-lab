@@ -44,9 +44,7 @@ async function initialLoad() {
   );
   breeds = await res.json();
 
-  console.log(breeds);
-  //console.log(breeds[1].description + " " + "They are" + " " +breeds[1].temperament)
-
+ 
   for (let cat of breeds) {
     let breedsOptionEl = document.createElement("option");
     breedsOptionEl.textContent = cat.name;
@@ -94,21 +92,21 @@ breedSelect.addEventListener("change", () => {
         image.id
       );
       Carousel.appendCarousel(imgDisplay);
-      //  console.log(image)
+     
       let selectedBreed = Array.from(breedSelect.options).find(
         (option) => option.value === chosenId
-      ); // research this!! delete later
-      //console.log(selectedBreed)
+      ); 
     }
   }
   console.log("Fetching new images for:", chosenId);
-   getImages(); //  returns id of the selected breed. my mind is fuzzy :D
+   getImages(); //  returns id of the selected breed. 
+
   //infoDump step for 2:
-  let selectedBreed = breeds.find((breed) => breed.id === chosenId); // WHY DOES THIS WORK!!!!! DELETE BEFORE SUBMITTING
+  let selectedBreed = breeds.find((breed) => breed.id === chosenId); 
   if (selectedBreed) {
     let infoSection = document.getElementById("infoDump");
     infoSection.textContent = "";
-    // console.log(selectedBreed.description)
+    
     infoSection.textContent = `Cat: ${selectedBreed.name}. ${selectedBreed.description} They are  ${selectedBreed.temperament}`;
   }
 
